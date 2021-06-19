@@ -1,0 +1,298 @@
+<link rel="stylesheet" href="/css/taginput.css">
+    <script src="/js/taginput.js"></script>
+<style>
+    .write-cover {
+        margin: auto;
+        width: 800px;
+    }
+
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+        height: 400px;
+    }
+
+    .controls {
+        background-color: #fff;
+        border-radius: 2px;
+        border: 1px solid transparent;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        box-sizing: border-box;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        height: 29px;
+        margin-left: 17px;
+        margin-top: 10px;
+        outline: none;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+    }
+
+    .controls:focus {
+        border-color: #4d90fe;
+    }
+
+    .title {
+        font-weight: bold;
+    }
+
+    #infowindow-content {
+        display: none;
+    }
+
+    #map #infowindow-content {
+        display: inline;
+    }
+
+    .register-img-box {
+        display: flex;
+        height: 100px;
+        margin-right: 3px;
+        border: 1px solid rgb(201, 206, 212);
+        border-radius: 5px;
+        overflow-x: scroll;
+        width: 660px;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* image preview */
+
+    .image-preview {
+        width: 400px;
+        min-height: 500px;
+        border: 2px solid #ddddd;
+        margin-top: 15px;
+
+        /*Default text*/
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #cccccc;
+    }
+
+    .image-preview__image {
+        display: none;
+        width: 100%;
+    }
+
+    #myCanvas{
+        width: 450px;
+        height: 450px;
+        margin: 5px;
+        margin-top: 15px;
+    }
+</style>
+
+<div class="container">
+    <div class="write-cover">
+        <form action="">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" name="title" class="form-control" id="title">
+            </div>
+
+            <div class="mb-3" style="display: flex;">
+                <div class="register-img-box" id="register-img-box"></div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#register-img">
+                    Register Image
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="register-img" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <input type='file' class="form-control" name="inpFile" id="inpFile" onchange="readURL(this);" />
+                                <canvas id="myCanvas"></canvas>
+                                <button class="btn btn-primary" data-bs-dismiss="modal" style="float: right;">Add Picture</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal -->
+            </div>
+
+            <div class="mb-3">
+                <textarea id="summernote" name="content" row="200"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <div class="tag-container-cover">
+                    <div class="tag-container">
+                        <input type="text" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div style="display: none">
+                    <input id="pac-input" class="controls" type="text" placeholder="Enter a location" />
+                </div>
+                <div id="map"></div>
+                <div id="infowindow-content">
+                    <span id="place-name" class="title"></span><br />
+                    <strong>Place ID:</strong> <span id="place-id"></span><br />
+                    <span id="place-address"></span>
+                    
+                </div>
+            </div>
+
+
+
+            <button class="btn btn-primary" id="btn-save" style="float: right;">Register</button>
+
+        </form>
+    </div>
+</div>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLQasq3QtsJw1arPjV-Hwf3AYBqi0giEI&callback=initMap&libraries=places&v=weekly"
+    async></script>
+<script>
+    // This sample uses the Place Autocomplete widget to allow the user to search
+    // for and select a place. The sample then displays an info window containing
+    // the place ID and other information about the place that the user has
+    // selected.
+    // This example requires the Places library. Include the libraries=places
+    // parameter when you first load the API. For example:
+    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+    function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+            center: {
+                lat: -33.8688,
+                lng: 151.2195
+            },
+            zoom: 13,
+        });
+
+        /* location 검색기 관련 */
+        const input = document.getElementById("pac-input");
+        const autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo("bounds", map);
+
+        //console.log(autocomplete); 
+
+        // Specify just the place data fields that you need.
+        autocomplete.setFields(["place_id", "geometry", "formatted_address", "name"]);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        const infowindow = new google.maps.InfoWindow();
+        /*console.log(infowindow);*/
+        
+        const infowindowContent = document.getElementById("infowindow-content");
+        infowindow.setContent(infowindowContent);
+        const marker = new google.maps.Marker({
+            map: map
+        });
+
+       
+
+        marker.addListener("click", () => {
+            infowindow.open(map, marker);
+        });
+        autocomplete.addListener("place_changed", () => {
+            infowindow.close();
+            const place = autocomplete.getPlace();
+
+            if (!place.geometry || !place.geometry.location) {
+                return;
+            }
+
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17);
+            }
+            // Set the position of the marker using the place ID and location.
+            marker.setPlace({
+                placeId: place.place_id,
+                location: place.geometry.location,
+            });
+            marker.setVisible(true);
+            infowindowContent.children.namedItem("place-name").textContent = place.name;
+            infowindowContent.children.namedItem("place-id").textContent =
+                place.place_id;
+            infowindowContent.children.namedItem("place-address").textContent =
+                place.formatted_address;
+            infowindow.open(map, marker);
+            console.log(marker);
+        });
+         
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            placeholder: 'Hello Bootstrap 4',
+            tabsize: 2,
+            height: 100
+        });
+    });
+
+</script>
+
+<script>
+
+    let imgArr = [];
+    var i = 0;
+    var j = 0;
+
+    function removePic(btn) {
+
+         var myVar = document.querySelectorAll('#register-img-box img')[0].src;
+        console.log(myVar);
+        imgArr = imgArr.filter((element) => element !== myVar);
+
+        console.log(imgArr);
+        var el = document.getElementById(btn);
+        el.remove();
+        
+       
+         
+    }
+
+
+
+  function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.addEventListener(
+      "load",
+      function() {
+        var avatarImg = new Image();
+        var src = reader.result;
+        avatarImg.src = src;
+    
+        imgArr[i] = src;
+        i++; 
+
+        document.getElementById("register-img-box").innerHTML += "<a href='#' onclick='removePic(this.id);' id='img-cube" + (j+1) + "'><img src='" + imgArr[j] + "' alt='' class='img-cube" + (j+1) + "'style='width: 80px; height:80px; margin: 10px; border-radius: 5px; '></a> ";
+        j++;
+        
+        avatarImg.onload = function() {
+          var c = document.getElementById("myCanvas");
+          var ctx = c.getContext("2d");
+          ctx.canvas.width = avatarImg.width;
+          ctx.canvas.height = avatarImg.height;
+          
+          ctx.drawImage(avatarImg, 0, 0);
+        };
+      },
+      false
+    );
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+
+</script>

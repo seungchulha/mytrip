@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Mate+SC&family=Ubuntu:wght@400;700&display=swap');
+
+.polaroid_pic {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background-position: center;
+  background-size: cover;
+  z-index: 1;
+  cursor: pointer;
+  /* if want shadow of picture  */
+  box-shadow: 0 36px 10px -20px rgba(0, 0, 0, 0.2);
+}
+
+.polaroid-1 > img {
+  width: 250px;
+  height: 200px;
+}
+
+.polaroid-2 > img {
+  width: 250px;
+  height: 250px;
+}
+
+.polaroid-3 > img {
+  width: 250px;
+  height: 300px;
+}
+
+.polaroid-4 > img {
+  width: 250px;
+  height: 350px;
+}
+
+.main_picture {
+  height: 500px;
+  width: 400px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.main_album_right{
+    padding: 20px;
+}
+
+.main_right_header{
+    display: flex;
+}
+
+.main_right_header>.material-icons{
+    margin-top: 7px;
+    float: right;
+}
+
+.profile_pic{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.uploader{
+    text-decoration: none;
+    color: black;
+    font-size: 0.85rem;
+    margin-left: 10px;
+    margin-top: 7px;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bolder;
+}

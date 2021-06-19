@@ -1,0 +1,63 @@
+구글맵 드로잉 툴
+https://developers.google.com/maps/documentation/javascript/examples/drawing-tools
+
+
+구글맵 with 검색창 
+https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder
+
+
+구글맵 위도 경도
+https://developers.google.com/maps/documentation/javascript/examples/event-click-latlng#maps_event_click_latlng-javascript
+
+
+<script>
+function initMap() {
+  const myLatlng = { lat: 40.755, lng: -111.890 };
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 13,
+    center: myLatlng,
+  });
+  // Create the initial InfoWindow.
+  let infoWindow = new google.maps.InfoWindow({
+    content: "Click the map to get Lat/Lng!",
+    position: myLatlng,
+  });
+  infoWindow.open(map);
+  // Configure the click listener.
+  map.addListener("click", (mapsMouseEvent) => {
+    // Close the current InfoWindow.
+    infoWindow.close();
+    // Create a new InfoWindow.
+    infoWindow = new google.maps.InfoWindow({
+      position: mapsMouseEvent.latLng,
+    });
+    
+    //infoWindow.setContent(
+    //  JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+    //);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    var coordinate = JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2);
+    var coordinateJSON = JSON.parse(coordinate);
+    document.getElementById("latitude").value = coordinateJSON.lat;
+    document.getElementById("longitude").value = coordinateJSON.lng;
+    document.getElementById("coordinate").value = coordinate;
+
+    infoWindow.open(map);
+  });
+}
+
+</script>

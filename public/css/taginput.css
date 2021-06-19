@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.tag-container-cover{
+  width: 100%;
+}
+
+.tag-container{
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+}
+
+.tag-container .tag{
+  padding: 5px;
+  border: 1px solid #ccc;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  background: rgb(74,92,248);
+  color: white;
+  font-size: 12px;
+  cursor: default;
+}
+
+.tag-container .tag:nth-child(2) {
+  background: rgb(89, 191, 100);
+  color: white;
+}
+
+.tag-container .tag:nth-child(3) {
+  background: rgb(50,123,76);
+  color: white;
+}
+
+.tag-container .tag:nth-child(4) {
+  background: rgb(218, 82, 84);
+  color: white;
+}
+
+.tag-container .tag:nth-child(5) {
+  background: orangered;
+  color: white;
+}
+
+.tag-container .tag:nth-child(6) {
+  background: rgb(250, 207, 77);
+  color: black;
+}
+
+.tag-container .tag:nth-child(7) {
+  background: rgb(89,191,235);
+  color: black;
+}
+
+.tag-container .tag:nth-child(8) {
+  background: rgb(99,105,113);
+  color: white;
+}
+
+.tag i{
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.tag-container input{
+  flex: 1;
+  font-size: 16px;
+  padding: 5px;
+  outline: none;
+  border: 0;
+}

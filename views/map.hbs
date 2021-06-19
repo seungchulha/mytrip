@@ -1,0 +1,66 @@
+<style>
+    #map {
+        height: 400px;
+    }
+
+    .controls {
+        background-color: #fff;
+        border-radius: 2px;
+        border: 1px solid transparent;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        box-sizing: border-box;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        height: 29px;
+        margin-left: 17px;
+        margin-top: 10px;
+        outline: none;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+    }
+
+    .controls:focus {
+        border-color: #4d90fe;
+    }
+
+    .title {
+        font-weight: bold;
+    }
+
+    #infowindow-content {
+        display: none;
+    }
+
+    #map #infowindow-content {
+        display: inline;
+    }
+</style>
+
+<div class="container">
+
+    <div class="mb-3">
+        <div style="display: none">
+            <input id="pac-input" class="controls" type="text" placeholder="Enter a location" />
+        </div>
+        <div id="map"></div>
+        <div id="infowindow-content">
+            <span id="place-name" class="title"></span><br />
+            <strong>Place ID:</strong> <span id="place-id"></span><br />
+            <span id="place-address"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <input type="text" class="form-control" id="latitude" readonly>
+        <input type="text" class="form-control" id="longitude" readonly>
+        <input type="text" class="form-control" id="coordinate" readonly>
+    </div>
+
+
+</div>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLQasq3QtsJw1arPjV-Hwf3AYBqi0giEI&callback=initMap&libraries=places&v=weekly"
+    async></script>
+<script src="/js/googlemapcoordinate.js"></script>

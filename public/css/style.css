@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
+nav {
+  padding: 10px;
+  text-align: center;
+}
+
+.logo {
+  font-family: "Pacifico", cursive;
+  font-size: 2.5rem;
+  text-decoration: none;
+  color: red;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+}
+
+.searcher_top{
+    border: 1px solid red;
+    border-radius: 20px;
+    margin-top: 5px;
+}
+
+.searcher_top::placeholder{
+    color: red;
+    opacity: 1;
+}
+
+.login-btn{
+    color: red;
+}
+
+.login_icon{
+  margin-top:5px;
+}
+
+.search-btn{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
+}
+
+.search_btn_icon{
+  margin-left: -5px;
+}
+
+.modal-content{
+  width: 1200px; margin-left:-200px; padding-top: 30px;
+}
+
+.polaroid_cover {
+  border-radius: 5px;
+  width: 1200px;
+  height: 700px;
+  margin: auto;
+  display: flex;
+  margin-top: -20px;
+}
+
+.polaroid_img {
+  background-image: url(http://cdn.cnn.com/cnnnext/dam/assets/160621115931-seoul-after.jpg);
+  width: 650px;
+  height: 650px;
+  float: left;
+  border-radius: 10px;
+  margin-top: 25px;
+  margin-left: 20px;
+}
+
+.polaroid_info {
+  margin-left: 20px;
+  width: 510px;
+  background-color: transparent;
+  padding: 20px;
+}
+
+.polaroid_info_header {
+  display: flex;
+  border-radius: 10px;
+}
+
+.taglink {
+  text-decoration: none;
+  margin-right: 5px;
+}
+
+.author_pic {
+  background-image: url(/img/hanyeseul.png);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.author_id {
+  font-size: 1.125rem;
+  margin-top: 10px;
+  margin-left: 8px;
+  width: 350px;
+}
+
+.author_link {
+  text-decoration: none;
+  color: black;
+}
+
+.reply-btn {
+  margin-right: -3px;
+}
+
+.modal-content {
+  margin-top: 60%;
+}
+
+.list-group-item {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.actionForPolaroid-btn {
+  text-decoration: none;
+  color: black;
+}
+
+.report-btn,
+.unfollow-btn {
+  color: red !important;
+}
+
+.reply_id {
+  text-decoration: none;
+  color: black;
+}
+
+.reply_to {
+  display: flex;
+}
+
+.reply_date {
+  margin-right: 20px;
+}
+
+.reply_like {
+  margin-right: 20px;
+}
+
+.reply_to_reply>a {
+  text-decoration: none;
+}
+
+.reply_cover {
+  margin-bottom: 5px;
+}

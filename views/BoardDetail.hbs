@@ -1,0 +1,186 @@
+<style>
+  .polaroid_cover {
+    border-radius: 5px;
+    width: 1200px;
+    height: 700px;
+    margin: auto;
+    display: flex;
+    border: 0.05px solid black;
+  }
+
+  .polaroid_img {
+    background-image: url(http://cdn.cnn.com/cnnnext/dam/assets/160621115931-seoul-after.jpg);
+    width: 650px;
+    height: 650px;
+    float: left;
+    border-radius: 10px;
+    margin-top: 25px;
+    margin-left: 20px;
+  }
+
+  .polaroid_info {
+    margin-left: 20px;
+    width: 510px;
+    background-color: transparent;
+    padding: 20px;
+  }
+
+  .polaroid_info_header {
+    display: flex;
+    border-radius: 10px;
+  }
+
+  .taglink {
+    text-decoration: none;
+    margin-right: 5px;
+  }
+
+  .author_pic {
+    background-image: url(/img/hanyeseul.png);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+
+  .author_id {
+    font-size: 1.125rem;
+    margin-top: 10px;
+    margin-left: 8px;
+    width: 350px;
+  }
+
+  .author_link {
+    text-decoration: none;
+    color: black;
+  }
+
+  .reply-btn {
+    margin-right: -3px;
+  }
+
+  .modal-content {
+    margin-top: 60%;
+  }
+
+  .list-group-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+
+  .actionForPolaroid-btn {
+    text-decoration: none;
+    color: black;
+  }
+
+  .report-btn,
+  .unfollow-btn {
+    color: red !important;
+  }
+
+  .reply_id {
+    text-decoration: none;
+    color: black;
+  }
+
+  .reply_to {
+    display: flex;
+  }
+
+  .reply_date {
+    margin-right: 20px;
+  }
+
+  .reply_like {
+    margin-right: 20px;
+  }
+
+  .reply_to_reply>a {
+    text-decoration: none;
+  }
+
+  .reply_cover {
+    margin-bottom: 5px;
+  }
+</style>
+<div class="container-fluid" style="padding-top: 30px;">
+
+  <div class="polaroid_cover">
+    <div class="polaroid_img"></div>
+
+    <div class="polaroid_info">
+      <div class="polaroid_info_header card-header">
+        <div class="author_pic"></div>
+        <div class="author_id"><a href="" class="author_link">한예슬</a></div>
+        <a href="" data-bs-toggle="modal" data-bs-target="#actionForPolaroid"><i class="material-icons"
+            style="margin-top: 12px; color:black;">more_horiz</i></a>
+        <!-- Modal -->
+        <div class="modal fade" id="actionForPolaroid" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a href="" class="actionForPolaroid-btn report-btn">Report</a></li>
+                <li class="list-group-item"><a href="" class="actionForPolaroid-btn unfollow-btn">Unfollow</a></li>
+                <li class="list-group-item"><a href="" class="actionForPolaroid-btn">Go to post</a></li>
+                <li class="list-group-item"><a href="" class="actionForPolaroid-btn">Share to...</a></li>
+                <li class="list-group-item"><a href="" class="actionForPolaroid-btn">Copy Link</a></li>
+                <li class="list-group-item"><a href="" class="actionForPolaroid-btn">Embed</a></li>
+                <li class="list-group-item"><a href="" class="actionForPolaroid-btn" data-bs-dismiss="modal"
+                    aria-label="Close">Cancel</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="polaroid_info_body card-body" style="height: 200px;">
+
+
+        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam perferendis, animi labore tempora
+          quidem laborum neque explicabo ea recusandae consequatur.</span><br>
+
+        <a href="" class="taglink">#난이뽀</a>
+        <a href="" class="taglink">#바보</a>
+        <a href="" class="taglink">#멍충이</a>
+        <a href="" class="taglink">#해삼</a>
+      </div>
+
+
+      <div class="uploaded_date card-footer text-muted">
+        2 days ago
+      </div>
+
+      <form action="" style="display: flex;">
+        <input type="text" class="form-control"
+          style="border: none; border-bottom: 1px solid black; border-radius: 0px;">
+        <button class="reply-btn" style="border: none; background-color: white; color: blue;">Post</button>
+      </form>
+
+      <div class="reply-list" style="margin-top:3px; height: 300px; overflow-y: scroll;">
+
+        <div class="reply_cover">
+          <a href="" class="reply_id">seungchulha</a>
+          <span class="reply_content">정말 아름다우시네요</span>
+          <div class="reply_to">
+            <div class="reply_date text-muted">80w</div>
+            <div class="reply_like text-muted">1 like</div>
+            <div class="reply_to_reply text-muted"><a href="" class="reply_to_reply_btn">Reply</a></div>
+          </div>
+        </div>
+
+        <div class="reply_cover">
+          <a href="" class="reply_id">seungchulha</a>
+          <span class="reply_content">정말 아름다우시네요</span>
+          <div class="reply_to">
+            <div class="reply_date text-muted">80w</div>
+            <div class="reply_like text-muted">1 like</div>
+            <div class="reply_to_reply text-muted"><a href="" class="reply_to_reply_btn">Reply</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
