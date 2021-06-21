@@ -1,0 +1,490 @@
+Home-brew installation 
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+
+brew tap mongodb/brew
+brew install mongodb-community@4.4
+brew services start mongodb-community@4.4
+
+Mongoldb 실행
+mongo
+
+
+https://www.mongodb.com/try/download/compass
+
+
+db.posts.insert({
+    title: 'Post One',
+    body: 'Body of Post one',
+    category: 'News',
+    likes: 4,
+    tags: ['news', 'events'],
+    user:{
+        name: 'John Doe',
+        status: 'author'
+    },
+    date: Date()
+})
+
+db.posts.insertMany([
+    {
+        title: 'Post Two',
+        body: 'Body of post two',
+        category: 'Technology',
+        date: Date()
+    },
+    {
+        title: 'Post Three',
+        body: 'Body of post three',
+        category: 'News',
+        date: Date()
+    },
+    {
+        title: 'Post Four',
+        body: 'Body of post four',
+        category: 'Entertainment',
+        date: Date()
+    }
+])
+    
+
+들어있는 데이터 보기
+db.posts.find()
+
+이쁘게 보기 
+db.posts.find().pretty()
+
+원하는 정보의 값을 가진것 보기
+db.posts.find({ category: 'News'})
+
+db.posts.find().sort({ title: 1}).pretty()
+
+How many documents we have? 
+db.posts.find({category: 'News'}).count()
+
+데이터 2개만 보여줘!!
+db.posts.find().limit(2)
+
+
+db.posts.find().sort({title: -1}).limit(2)
+
+db.posts.find().forEach(function(doc){
+    print('Blog Post: ' + doc.title)
+})
+
+db.posts.findOne({category: 'News'})
+
+
+----------------------------------------------------------------
+
+Update --->
+db.posts.update({ title: 'Post Two' },
+    {
+        title: 'Post Two',
+        body: 'New post 2 body',
+        date: Date()
+    },
+    {
+        upsert: true
+    }
+)
+
+!! 참고 upsert == update and insert
+
+결과
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.posts.find({ title: 'Post Two'}).pretty()
+{
+	"_id" : ObjectId("60cf09c5c031e4da09c84515"),
+	"title" : "Post Two",
+	"body" : "New post 2 body", 변경되었다!!!
+	"date" : "Sun Jun 20 2021 18:37:21 GMT+0900 (KST)"
+}
+
+
+db.posts.update({ title: 'Post Two' },
+    {
+        $set: {
+            body: 'Body of post 2',
+            category: 'Technology'
+        }
+    }
+)
+
+----------------------------------------------------------------
+
+새로운 업데이트
+
+Like 변화 주기 ( 숫자 올리기 )
+
+원래 데이터 값
+db.posts.find({title:'Post One'}).pretty()
+{
+	"_id" : ObjectId("60cf0913c031e4da09c84514"),
+	"title" : "Post One",
+	"body" : "Body of Post one",
+	"category" : "News",
+	"likes" : 4,  ----> 4 다
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "John Doe",
+		"status" : "author"
+	},
+	"date" : "Sun Jun 20 2021 18:23:31 GMT+0900 (KST)"
+}
+
+변화를 주자
+
+db.posts.update({ title: 'Post One'}, { $inc: { likes: 2}})
+ db.posts.find({title:'Post One'}).pretty()
+{
+	"_id" : ObjectId("60cf0913c031e4da09c84514"),
+	"title" : "Post One",
+	"body" : "Body of Post one",
+	"category" : "News",
+	"likes" : 6,  ---> 6으로 값이 올랐다  !!$inc 숫자인 값을 올려주는!!
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "John Doe",
+		"status" : "author"
+	},
+	"date" : "Sun Jun 20 2021 18:23:31 GMT+0900 (KST)"
+}
+
+
+
+----------------------------------------------------------------
+
+db.posts.update({title: 'Post One'}, { $rename: { likes: 'views'}})
+
+ db.posts.find({title:'Post One'}).pretty()
+{
+	"_id" : ObjectId("60cf0913c031e4da09c84514"),
+	"title" : "Post One",
+	"body" : "Body of Post one",
+	"category" : "News",
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "John Doe",
+		"status" : "author"
+	},
+	"date" : "Sun Jun 20 2021 18:23:31 GMT+0900 (KST)",
+	"views" : 6 ------>  likes 에서 views 로 이름이 변경되었다
+}
+
+
+------------------------------------------------------------
+
+Delete
+
+제목으로 삭제하기
+db.posts.remove({title: 'Post Four'}) 해당 제목의 데이터가 삭제된다
+
+------------------------------------------------------------
+
+db.posts.update({ title: 'Post One'},
+    {
+        $set: {
+            comments: [
+                {
+                    user: 'Mary Williams',
+                    body: 'Comment One',
+                    date: Date()
+                },
+                {
+                    user: 'Harry White',
+                    body: 'Comment Two',
+                    date: Date()
+                }
+            ]
+        }
+    }
+)
+
+결과 
+> db.posts.find({ title: 'Post One' }).pretty()
+{
+	"_id" : ObjectId("60cf0913c031e4da09c84514"),
+	"title" : "Post One",
+	"body" : "Body of Post one",
+	"category" : "News",
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "John Doe",
+		"status" : "author"
+	},
+	"date" : "Sun Jun 20 2021 18:23:31 GMT+0900 (KST)",
+	"views" : 6,
+	"comments" : [  --> comment 데이터가 추가되었다!!
+		{
+			"user" : "Mary Williams",
+			"body" : "Comment One",
+			"date" : "Sun Jun 20 2021 18:51:24 GMT+0900 (KST)"
+		},
+		{
+			"user" : "Harry White",
+			"body" : "Comment Two",
+			"date" : "Sun Jun 20 2021 18:51:24 GMT+0900 (KST)"
+		}
+	]
+}
+
+
+------------------------------------------------------------
+
+해당 자료와 매치하는 데이터를 달라고 요청 하기
+
+
+db.posts.find({
+    comments: {
+        $elemMatch: {
+            user: 'Mary Williams'
+        }
+    }
+}).pretty()
+
+결과
+{
+	"_id" : ObjectId("60cf0913c031e4da09c84514"),
+	"title" : "Post One",
+	"body" : "Body of Post one",
+	"category" : "News",
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "John Doe",
+		"status" : "author"
+	},
+	"date" : "Sun Jun 20 2021 18:23:31 GMT+0900 (KST)",
+	"views" : 6,
+	"comments" : [
+		{
+			"user" : "Mary Williams",
+			"body" : "Comment One",
+			"date" : "Sun Jun 20 2021 18:51:24 GMT+0900 (KST)"
+		},
+		{
+			"user" : "Harry White",
+			"body" : "Comment Two",
+			"date" : "Sun Jun 20 2021 18:51:24 GMT+0900 (KST)"
+		}
+	]
+}
+
+----------------------------------------------------------------------
+
+db.posts.createIndex({title: 'text'})
+
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+
+
+db.posts.find({
+    $text: {
+        $search: "\"Post O\""
+    }
+}).pretty()
+
+결과 
+{
+	"_id" : ObjectId("60cf0913c031e4da09c84514"),
+	"title" : "Post One",
+	"body" : "Body of Post one",
+	"category" : "News",
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "John Doe",
+		"status" : "author"
+	},
+	"date" : "Sun Jun 20 2021 18:23:31 GMT+0900 (KST)",
+	"views" : 6,
+	"comments" : [
+		{
+			"user" : "Mary Williams",
+			"body" : "Comment One",
+			"date" : "Sun Jun 20 2021 18:51:24 GMT+0900 (KST)"
+		},
+		{
+			"user" : "Harry White",
+			"body" : "Comment Two",
+			"date" : "Sun Jun 20 2021 18:51:24 GMT+0900 (KST)"
+		}
+	]
+}
+
+다시 조금 수정후 검색
+db.posts.find({
+    $text: {
+        $search: "\"Post T\""
+    }
+}).pretty()
+
+결과
+제목에 T가 들어간 값 나온다
+
+{
+	"_id" : ObjectId("60cf09c5c031e4da09c84516"),
+	"title" : "Post Three",
+	"body" : "Body of post three",
+	"category" : "News",
+	"date" : "Sun Jun 20 2021 18:26:29 GMT+0900 (KST)"
+}
+{
+	"_id" : ObjectId("60cf09c5c031e4da09c84515"),
+	"title" : "Post Two",
+	"body" : "Body of post 2",
+	"date" : "Sun Jun 20 2021 18:37:21 GMT+0900 (KST)",
+	"category" : "Technology"
+}
+
+
+
+----------------------------------------------------------------------
+db.posts.update({ title: 'Post Two'}, { $set: {views: 10}})
+
+결과
+db.posts.find({ title: 'Post Two' }).pretty()
+
+{
+	"_id" : ObjectId("60cf09c5c031e4da09c84515"),
+	"title" : "Post Two",
+	"body" : "Body of post 2",
+	"date" : "Sun Jun 20 2021 18:37:21 GMT+0900 (KST)",
+	"category" : "Technology",
+	"views" : 10  -----> views 가 추가 되고 10 값이 들어갔다
+}
+
+
+----------------------------------------------------------------------
+gt, lt, gte, lte
+
+
+db.posts.find({ views: { $gt: 3}}).pretty()
+
+결과
+{
+	"_id" : ObjectId("60cf0913c031e4da09c84514"),
+	"title" : "Post One",
+	"body" : "Body of Post one",
+	"category" : "News",
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "John Doe",
+		"status" : "author"
+	},
+	"date" : "Sun Jun 20 2021 18:23:31 GMT+0900 (KST)",
+	"views" : 6,
+	"comments" : [
+		{
+			"user" : "Mary Williams",
+			"body" : "Comment One",
+			"date" : "Sun Jun 20 2021 18:51:24 GMT+0900 (KST)"
+		},
+		{
+			"user" : "Harry White",
+			"body" : "Comment Two",
+			"date" : "Sun Jun 20 2021 18:51:24 GMT+0900 (KST)"
+		}
+	]
+}
+{
+	"_id" : ObjectId("60cf09c5c031e4da09c84515"),
+	"title" : "Post Two",
+	"body" : "Body of post 2",
+	"date" : "Sun Jun 20 2021 18:37:21 GMT+0900 (KST)",
+	"category" : "Technology",
+	"views" : 10
+}
+
+
+db.posts.find({ views: { $gt: 6}}).pretty()  ---> views 값이 6 보다 큰 데이터를 보여줘
+{
+	"_id" : ObjectId("60cf09c5c031e4da09c84515"),
+	"title" : "Post Two",
+	"body" : "Body of post 2",
+	"date" : "Sun Jun 20 2021 18:37:21 GMT+0900 (KST)",
+	"category" : "Technology",
+	"views" : 10
+}
+
+
+
+db.posts.find({ views: { $gte: 6}}).pretty() -----> greaterthan or equal to
+{
+	"_id" : ObjectId("60cf0913c031e4da09c84514"),
+	"title" : "Post One",
+	"body" : "Body of Post one",
+	"category" : "News",
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "John Doe",
+		"status" : "author"
+	},
+	"date" : "Sun Jun 20 2021 18:23:31 GMT+0900 (KST)",
+	"views" : 6,
+	"comments" : [
+		{
+			"user" : "Mary Williams",
+			"body" : "Comment One",
+			"date" : "Sun Jun 20 2021 18:51:24 GMT+0900 (KST)"
+		},
+		{
+			"user" : "Harry White",
+			"body" : "Comment Two",
+			"date" : "Sun Jun 20 2021 18:51:24 GMT+0900 (KST)"
+		}
+	]
+}
+{
+	"_id" : ObjectId("60cf09c5c031e4da09c84515"),
+	"title" : "Post Two",
+	"body" : "Body of post 2",
+	"date" : "Sun Jun 20 2021 18:37:21 GMT+0900 (KST)",
+	"category" : "Technology",
+	"views" : 10
+}
+
+
+
+
+
+
+----------------------------------------------------------------------
+
+
+exit 을 치면 종료된다
+
+----------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
